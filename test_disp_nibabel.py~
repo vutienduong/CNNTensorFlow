@@ -1,0 +1,26 @@
+import matplotlib.pyplot as plt
+import nibabel as nib
+epi_img = nib.load('/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/AD1/wADNI_003_S_1059_MR_MPR__GradWarp__B1_Correction__N3_Br_20070501173419666_S22301_I52811.img')
+epi_img_data = epi_img.get_data()
+print epi_img_data.shape
+
+def show_slices(slices):
+	fig, axes = plt.subplots(1, len(slices))
+	for i, slice in enumerate(slices):
+		axes[i].imshow(slice.T, cmap="gray", origin="lower")
+
+slice_0 = epi_img_data[20, :, :]
+slice_1 = epi_img_data[:, 15, :]
+slice_2 = epi_img_data[:, :, 13]
+
+show_slices([slice_0, slice_1, slice_2])
+plt.suptitle("Center slices for EPI image")  
+
+# img=mpimg.imread('games.png')
+# imgplot = plt.imshow(img)
+
+# plt.plot(range(20),range(20))
+plt.show()
+
+fname = '/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/'
+
