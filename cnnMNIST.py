@@ -57,12 +57,12 @@ def main(_):
 	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 	h_pool2 = max_pool_2x2(h_conv2)
 	
-	print_shape("h_conv1: ", h_conv1)
-	print_shape("h_pool1: ", h_pool1)
-	print_shape("h_conv2: ", h_conv2)
-	print_shape("h_pool2: ", h_pool2)
+	#print_shape("h_conv1: ", h_conv1)
+	#print_shape("h_pool1: ", h_pool1)
+	#print_shape("h_conv2: ", h_conv2)
+	#print_shape("h_pool2: ", h_pool2)
 
-	exit()
+	#exit()
 
 	W_fc1 = weight_variable([7 * 7 * 64, 1024])
 	b_fc1 = bias_variable([1024])
@@ -93,8 +93,8 @@ def main(_):
 	sess.run(tf.initialize_all_variables())
 	for i in range(200):
 		batch = mnist.train.next_batch(50)
-		print (print_type_name(batch))
-		if i%100 == 0:
+		#print (print_type_name(batch))
+		if i%2 == 0:
 			train_accuracy = accuracy.eval(feed_dict={x:batch[0], y_: batch[1], keep_prob: 1.0})
 			#print(len(batch[0][0]))
 			# batch0 = batch[0]
@@ -104,7 +104,7 @@ def main(_):
 			print("step %d, training accuracy %g"%(i, train_accuracy))
 		train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
-	print("test accuracy %g"%accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
+	#print("test accuracy %g"%accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
