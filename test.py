@@ -62,7 +62,7 @@ if 0:
 	autoencoder_test_print()
 	
 	from autoencoder_duong.read_data_from_analyze import *
-	mypath = '/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/'
+	mypath = get_def_data_dir()
 	adni, adni_label = read_data(mypath, ['AD', 'NC'], [80, 0, 20])
 
 	# cach 1: save file .dat (platform dependent)

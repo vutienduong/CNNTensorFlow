@@ -9,6 +9,7 @@ import nibabel as nib
 
 # Import data
 from tensorflow.examples.tutorials.mnist import input_data
+import autoencoder_duong.read_data_from_analyze as rdfa
 
 import tensorflow as tf
 
@@ -174,7 +175,7 @@ def data_iterator(features, labels):
 def main(_):
 	psize = 5
 
-	mypath = '/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/'
+	mypath = join(rdfa.get_def_dir(), '_dataset/')
 	adni, adni_label = read_data(mypath, ['AD', 'NC'], [80, 0, 20])
 
 	mri_train = adni['train'][0];

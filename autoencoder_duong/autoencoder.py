@@ -7,7 +7,7 @@ import random
 
 # Data loading and preprocessing
 from read_data_from_analyze import *
-mypath = '/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/'
+mypath = get_def_data_dir()
 adni, adni_label = read_data(mypath, ['AD', 'NC'], [80, 0, 20])
 
 mri_train = adni['train'][0];

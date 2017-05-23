@@ -87,16 +87,16 @@ def getActivations(layer,stimuli, sess, x, keep_prob, saved_name=None):
 
 def plotNNFilter(units=None, saved_name=None):
 	if units==None:
-		units = np.load('/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/units2.npy')
+		units = np.load(join(rdfa.get_stored_temp_dir(), 'units2.npy'))
 
 	print(np.shape(units))
 	print(type(units).__name__)
 	print(units.shape[3])
 
 	if saved_name != None:
-		saved_name = join('/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data', saved_name)
+		saved_name = join(rdfa.get_stored_temp_dir(), saved_name)
 
-	#np.save('/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/units.npy', units)
+	#np.save(join(rdfa.get_stored_temp_dir(), 'units.npy', units)
 	np.save(saved_name, units)
 
 	slice_num = math.ceil(units.shape[3] / 2)
@@ -122,7 +122,7 @@ def main(_):
 	encode_dim = 8
 	encode_dim2 = 8
 	encode_dim3= 8
-	saved_dir = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	saved_dir = rdfa.get_stored_temp_dir()
 
 	#mri_train, mri_test, label_train, label_test = rdfa.read_npy_file_3d() # NON norm
 	mri_train, mri_test, label_train, label_test = rdfa.read_npy_file_3d_norm() # norm
@@ -246,8 +246,8 @@ def main(_):
 	all_acc = []
 	sess = tf.InteractiveSession()
 	
-	log_file = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/log.txt'
-	log_pth = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	log_file = join(rdfa.get_stored_temp_dir(), 'log.txt')
+	log_pth = rdfa.get_stored_temp_dir()
 	# f = open( log_file, 'w' )
 	# f.write( 'dict = ' + repr(W_conv1) + '\n' )
 	# f.close()

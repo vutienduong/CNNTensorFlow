@@ -11,6 +11,7 @@ import nibabel as nib
 
 # Import data
 from tensorflow.examples.tutorials.mnist import input_data
+import autoencoder_duong.read_data_from_analyze as rdfa
 
 import tensorflow as tf
 
@@ -36,11 +37,11 @@ def print_type_name(x):
 # read input and create a 4D tensor
 def read_input():
 	# example_ni1 = os.path.join(path, file_name)
-	mri_input_file = '/home/ngoc/Desktop/CNNTensorFlow-master/JH41/mris.txt'
+	mri_input_file = join(rdfa.get_def_dir(), '/JH41/mris.txt')
 	mri_train = []
 	mri_test  = []
 
-	path = "/home/ngoc/Desktop/CNNTensorFlow-master/JH41/resizeMRI"
+	path = join(rdfa.get_def_dir(), "/JH41/resizeMRI")
 	count = 1
 
 	f = open(mri_input_file, 'r')
@@ -70,7 +71,7 @@ def read_input():
 
 # read label input and create a label list
 def read_label_input():
-	mri_input_file = '/home/ngoc/Desktop/CNNTensorFlow-master/JH41/mris_label.txt'
+	mri_input_file = join(rdfa.get_def_dir(), 'JH41/mris_label.txt')
 	label_train = []
 	label_test = []
 	count = 1

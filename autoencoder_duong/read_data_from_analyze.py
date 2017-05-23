@@ -235,7 +235,7 @@ def read_data2(data_path, class_names, each_set_portion, load_mode=False ):
 		#np.save(load_file, adni)
 		#np.save(load_lb_file, adni_label)
 	else:
-		dpath = '/home/ngoc/Desktop/CNNTensorFlow-master'
+		dpath = get_def_dir()
 		load_file = join(dpath, load_file)
 		load_lb_file = join(dpath, load_lb_file)
 		adni = np.load(load_file)
@@ -363,7 +363,7 @@ def read_npy_file_3d(prefix=None):
 	if prefix==None:
 		prefix = '3d'
 
-	saved_dir = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	saved_dir = join(get_def_dir(), 'autoencoder_duong/stored_temp_data/')
 	saved_dir = join(saved_dir, prefix)
 
 	mri_train_name = '3d_mri_train.npy'
@@ -380,3 +380,18 @@ def read_npy_file_3d(prefix=None):
 
 def read_npy_file_3d_norm():
 	return read_npy_file_3d('3d_norm')
+
+def get_def_dir():
+	return '/home/duong/Desktop/CNNTensorflow/CNNTensorflow/'
+
+def get_def_data_dir():
+	return '/home/duong/Desktop/CNNTensorflow/_dataset'	
+
+def get_data_dir(dir_name):
+	return join(get_def_data_dir(), dir_name)
+
+def get_specified_dir(sub_name):
+	return join(get_def_dir(), sub_name)
+
+def get_stored_temp_dir():
+	return get_specified_dir('autoencoder_duong/stored_temp_data')

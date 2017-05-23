@@ -88,12 +88,12 @@ def getActivations(layer,stimuli, sess, x, keep_prob):
 
 def plotNNFilter(units=None):
 	if units==None:
-		units = np.load('/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/units.npy')
+		units = np.load(join(rdfa.get_stored_temp_dir(), 'units.npy'))
 
 	print(np.shape(units))
 	print(type(units).__name__)
 	print(units.shape[3])
-	#np.save('/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/units.npy', units)
+	#np.save(join(rdfa.get_stored_temp_dir(), 'units.npy'), units)
 	#exit()
 	slice_num = int(units.shape[3] / 2)
 	print(slice_num)
@@ -119,7 +119,7 @@ def main(_):
 	psize = 5
 	encode_dim = 32
 
-	saved_dir = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	saved_dir = rdfa.get_stored_temp_dir()
 
 	mri_train, mri_test, label_train, label_test = rdfa.read_npy_file_3d_norm() # norm
 	iter_ = data_iterator(mri_train, label_train)
@@ -200,8 +200,8 @@ def main(_):
 	all_acc = []
 	sess = tf.InteractiveSession()
 	
-	log_file = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/log.txt'
-	log_pth = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	log_file = join(rdfa.get_stored_temp_dir(), 'log.txt')
+	log_pth = rdfa.get_stored_temp_dir()
 	# f = open( log_file, 'w' )
 	# f.write( 'dict = ' + repr(W_conv1) + '\n' )
 	# f.close()
@@ -254,7 +254,7 @@ def main(_):
 	#imageToUse = mri_train[1]
 
 	#TEST
-	class_path = '/home/ngoc/Desktop/_dataset/'
+	class_path = rdfa.get_def_data_dir()
 	#mri_name = 'old/AD/wADNI_003_S_1059_MR_MPR__GradWarp__B1_Correction__N3_Br_20070501173419666_S22301_I52811.hdr' # AD
 	#ri_name = 'old/NC/wADNI_005_S_0223_MR_MPR__GradWarp__B1_Correction__N3_Br_20061212164202354_S11981_I32856.hdr' # NC
 

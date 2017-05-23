@@ -70,7 +70,7 @@ def main(_):
 	num_test_ite = 20 #102
 	psize = 5
 
-	mypath = '/home/ngoc/Desktop/_dataset/all MRI 1523/'
+	mypath = rdfa.get_data_dir('all MRI 1523')
 	adni, adni_label = rdfa.read_data2(mypath, ['AD', 'NC'], [80, 0, 20], False)
 	mri_train = adni['train'][0];
 	mri_test = adni['test'][0];

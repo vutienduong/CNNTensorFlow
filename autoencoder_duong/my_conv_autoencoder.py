@@ -9,6 +9,7 @@ from keras.callbacks import TensorBoard
 from keras.datasets import mnist
 from keras import regularizers
 import h5py
+import read_data_from_analyze as rdfa
 # create 3d patches from adni mri input, with size, e.g. 5 x 5 x 5
 # INPUT default 
 # + patch_size = 5
@@ -24,7 +25,7 @@ def create_3d_patch(patch_size, num_patch_each_img, num_img, mri_train=None, mri
     verbose_flag = 0;
     # if mri_train is None and mri_test is None:
     #     print('Reload data')
-    #     mypath = '/home/ngoc/Desktop/_dataset/all MRI 1523/'
+    #     mypath = rdfa.get_data_dir('all MRI 1523')
     #     adni, adni_label = read_data(mypath, ['AD', 'NC'], [80, 0, 20])
     #     mri_train = adni['train'][0];
     #     mri_test = adni['test'][0];

@@ -4,13 +4,15 @@ from os import listdir
 from os.path import isfile, join
 import numpy as np
 import tensorflow as tf
+import autoencoder_duong.read_data_from_analyze as rdfa
 
-epi_img = nib.load('/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/AD/wADNI_003_S_1059_MR_MPR__GradWarp__B1_Correction__N3_Br_20070501173419666_S22301_I52811.img')
+
+epi_img = nib.load(rdfa.get_data_dir('AD/wADNI_003_S_1059_MR_MPR__GradWarp__B1_Correction__N3_Br_20070501173419666_S22301_I52811.img'))
 epi_img_data = epi_img.get_data()
 print epi_img_data.shape
 
 
-mypath = '/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/'
+mypath = rdfa.get_def_data_dir()
 subpath = 'AD'
 
 fullpath = join(mypath, subpath)

@@ -87,7 +87,7 @@ def main(_):
 	encode_dim = 32
 
 	# if 0: # pre Save
-	# 	mypath = '/home/ngoc/Desktop/_dataset/all MRI 1523/'
+	# 	mypath = rdfa.get_data_dir('all MRI 1523/')
 	# 	adni, adni_label = rdfa.read_data2(mypath, ['AD', 'NC'], [80, 0, 20], False)
 	# 	mri_train = adni['train'][0];
 	# 	mri_test = adni['test'][0];
@@ -95,7 +95,7 @@ def main(_):
 	# 	label_test = adni_label['test'];
 
 
-	saved_dir = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	saved_dir = rdfa.get_stored_temp_dir()
 	# # for save and load		
 	# mri_train_name = '3d_mri_train.npy'
 	# mri_test_name = '3d_mri_test.npy'
@@ -258,8 +258,8 @@ def main(_):
 	all_acc = []
 	sess = tf.InteractiveSession()
 	
-	log_file = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/log.txt'
-	log_pth = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	log_file = join(rdfa.get_stored_temp_dir(), 'log.txt')
+	log_pth = rdfa.get_stored_temp_dir()
 	# f = open( log_file, 'w' )
 	# f.write( 'dict = ' + repr(W_conv1) + '\n' )
 	# f.close()

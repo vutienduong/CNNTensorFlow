@@ -19,7 +19,7 @@ from my_conv_autoencoder import *
 import read_data_from_analyze as rdfa
 
 def test():
-	mypath = '/home/ngoc/Desktop/_dataset/old/AD'
+	mypath = rdfa.get_data_dir('old/AD')
 	#file_path = join(mypath, 'wADNI_003_S_1059_MR_MPR__GradWarp__B1_Correction__N3_Br_20070501173419666_S22301_I52811.hdr') #MRI
 	file_path = join(mypath, 'wADNI_003_S_1059_PT_Coreg,_Avg,_Std_Img_and_Vox_Siz,_Uniform_Resolution_Br_20070122123023427_1_S25144_I37090.hdr') # PET
 	pet_img = nib.load(file_path)
@@ -54,7 +54,7 @@ def test():
 	plt.show()
 
 def main(_):
-	mypath = '/home/ngoc/Desktop/_dataset/all MRI 1523/'
+	mypath = rdfa.get_data_dir('all MRI 1523')
 	#adni, adni_label = rdfa.read_only_middle_slice(mypath, ['AD', 'NC'], [80, 0, 20], 1)
 	#print(np.shape(adni['train']), np.shape(adni_label))
 	test()

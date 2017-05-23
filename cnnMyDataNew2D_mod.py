@@ -10,6 +10,7 @@ import nibabel as nib
 # Import data
 from tensorflow.examples.tutorials.mnist import input_data
 import autoencoder_duong.my_conv_autoencoder as myae
+import autoencoder_duong.read_data_from_analyze as rdfa
 
 import tensorflow as tf
 
@@ -300,10 +301,10 @@ def data_iterator(features, labels):
 
 def main(_):
 	myae.run_ae_2d()
-	mypath = '/home/ngoc/Desktop/_dataset/all MRI 1523'
+	mypath = rdfa.get_data_dir('all MRI 1523')
 	adni, adni_label = read_mri_data(mypath, ['AD', 'NC'], [80, 10, 10])
 	
-	#saved_dir = '/home/ngoc/Desktop/CNNTensorFlow-master/autoencoder_duong/stored_temp_data/'
+	saved_dir = redfa.get_stored_temp_dir()
 	#mri_train_name = 'middle_slice_train.npy'
 	#mri_test_name = 'middle_slice_test.npy'
 	#label_train_name = 'middle_slice_train_label.npy'
