@@ -19,17 +19,17 @@ encoded = Dense(encoding_dim, activation='relu')(input_img)
 decoded = Dense(784, activation='sigmoid')(encoded)
 
 # this model maps an input to its reconstruction
-autoencoder = Model(input=input_img, output=decoded)
+autoencoder = Model(input_img, decoded)
 
 # this model maps an input to its encoded representation
-encoder = Model(input=input_img, output=encoded)
+encoder = Model(input_img, encoded)
 
 # create a placeholder for an encoded (32-dimensional) input
 encoded_input = Input(shape=(encoding_dim,))
 # retrieve the last layer of the autoencoder model
 decoder_layer = autoencoder.layers[-1]
 # create the decoder model
-decoder = Model(input=encoded_input, output=decoder_layer(encoded_input))
+decoder = Model(encoded_input, decoder_layer(encoded_input))
 autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
 from keras.datasets import mnist

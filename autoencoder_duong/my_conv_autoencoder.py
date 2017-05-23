@@ -22,25 +22,27 @@ import h5py
 def create_3d_patch(patch_size, num_patch_each_img, num_img, mri_train=None, mri_test=None):
     # Data loading and preprocessing
     verbose_flag = 0;
+    # if mri_train is None and mri_test is None:
+    #     print('Reload data')
+    #     mypath = '/home/ngoc/Desktop/_dataset/all MRI 1523/'
+    #     adni, adni_label = read_data(mypath, ['AD', 'NC'], [80, 0, 20])
+    #     mri_train = adni['train'][0];
+    #     mri_test = adni['test'][0];
+    #     label_train = adni_label['train'];
+    #     label_test = adni_label['test'];
+    
     if mri_train is None and mri_test is None:
-        mypath = '/home/ngoc/Desktop/CNNTensorFlow-master/_dataset/'
-        adni, adni_label = read_data(mypath, ['AD', 'NC'], [80, 0, 20])
+        mri_train, mri_test, label_train, label_test = read_npy_file_3d_norm()
 
-        mri_train = adni['train'][0];
-        mri_test = adni['test'][0];
-
-        label_train = adni_label['train'];
-        label_test = adni_label['test'];
-        
-    print (np.shape(mri_train), np.shape(mri_test))
+    print ("mri_train, mri_test shape ", np.shape(mri_train), np.shape(mri_test))
+    print ('max 1:3 ' )
+    print(np.amax(mri_train[0:3],axis=(1,2,3)))
     
 
     if verbose_flag:
         print ("-- SIZE OF TRAIN, TEST DATA --")
         print (np.shape(mri_train))
         print (np.shape(mri_test))
-        #print (np.shape(label_train))
-        #print (np.shape(label_test))
 
     patch_train = []
     patch_test = []
@@ -168,28 +170,30 @@ def test_simple_ae(mri_train = None, mri_test = None):
     input_img = Input(shape=(psize * psize * psize,))
 
     # add a Dense layer with a L1 activity regularizer
-    # encoded = Dense(encoding_dim, activation='relu', activity_regularizer=regularizers.activity_l1(10e-4))(input_img)
+    encoded = Dense(encoding_dim, activation='relu', activity_regularizer=regularizers.l1(10e-10))(input_img)
 
 
     # relu + sigmoid
     # "encoded" is the encoded representation of the input
-    encoded = Dense(encoding_dim, activation='relu')(input_img)
+    # encoded = Dense(encoding_dim, activation='relu')(input_img)
+    #encoded = Dense(encoding_dim, activation='sigmoid')(input_img)
 
     # "decoded" is the lossy reconstruction of the input
     decoded = Dense(psize * psize * psize, activation='sigmoid')(encoded)
+    #decoded = Dense(psize * psize * psize, activation='linear')(encoded)
 
     # this model maps an input to its reconstruction
-    autoencoder = Model(input=input_img, output=decoded)
+    autoencoder = Model(input_img, decoded)
 
     # this model maps an input to its encoded representation
-    encoder = Model(input=input_img, output=encoded)
+    encoder = Model(input_img, encoded)
 
     # create a placeholder for an encoded (32-dimensional) input
     encoded_input = Input(shape=(encoding_dim,))
     # retrieve the last layer of the autoencoder model
     decoder_layer = autoencoder.layers[-1]
     # create the decoder model
-    decoder = Model(input=encoded_input, output=decoder_layer(encoded_input))
+    decoder = Model(encoded_input, decoder_layer(encoded_input))
     autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
     x_train, x_test = create_3d_patch(psize, 1000, 110, mri_train, mri_test)
@@ -208,23 +212,25 @@ def test_simple_ae(mri_train = None, mri_test = None):
                 print ("is nan")
 
     # FIND Max element
-    max_elem = 0
-    for i in range(len(x_train)):
-        temp_elem = np.amax(x_train[i])
-        if temp_elem > max_elem:
-            max_elem = temp_elem
+    # max_elem = 0
+    # for i in range(len(x_train)):
+    #     temp_elem = np.amax(x_train[i])
+    #     if temp_elem > max_elem:
+    #         max_elem = temp_elem
 
-    for i in range(len(x_test)):
-        temp_elem = np.amax(x_test[i])
-        if temp_elem > max_elem:
-            max_elem = temp_elem
+    # for i in range(len(x_test)):
+    #     temp_elem = np.amax(x_test[i])
+    #     if temp_elem > max_elem:
+    #         max_elem = temp_elem
 
     if 0:
         print(max_elem)
 
-    x_train = x_train.astype('float32') / max_elem
-    x_test = x_test.astype('float32') / max_elem
-    print(x_train[1][:,:,1])
+    # # NORmalization
+    # x_train = x_train.astype('float32') / max_elem
+    # x_test = x_test.astype('float32') / max_elem
+
+    #print(x_train[1][:,:,1])
 
     x_train = x_train.reshape((len(x_train), np.prod(x_train.shape[1:])))
     x_test = x_test.reshape((len(x_test), np.prod(x_test.shape[1:])))
@@ -232,7 +238,7 @@ def test_simple_ae(mri_train = None, mri_test = None):
     print (x_test.shape)
 
     autoencoder.fit(x_train, x_train,
-                    nb_epoch=5,
+                    nb_epoch=20,
                     batch_size=256,
                     shuffle=True,
                     validation_data=(x_test, x_test))
@@ -263,7 +269,7 @@ def test_simple_ae(mri_train = None, mri_test = None):
 
     # use Matplotlib (don't ask)
     import matplotlib.pyplot as plt
-    if 0:
+    if 1:
         # encode and decode some digits
         # note that we take them from the *test* set
         encoded_imgs = encoder.predict(x_test)
