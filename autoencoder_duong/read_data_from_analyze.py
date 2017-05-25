@@ -382,7 +382,7 @@ def read_npy_file_3d_norm():
 	return read_npy_file_3d('3d_norm')
 
 def get_def_dir():
-	return '/home/duong/Desktop/CNNTensorflow/CNNTensorflow/'
+	return '/home/duong/Desktop/CNNTensorflow/CNNTensorFlow/'
 
 def get_def_data_dir():
 	return '/home/duong/Desktop/CNNTensorflow/_dataset'	

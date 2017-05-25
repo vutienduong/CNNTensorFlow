@@ -60,7 +60,7 @@ def create_3d_patch(patch_size, num_patch_each_img, num_img, mri_train=None, mri
                 print ("is nan")
 
 
-    for i in range(0, 110): # TODO: hardcode
+    for i in range(0, num_img): # TODO: hardcode
         for j in range(0, num_patch_each_img):
             r1 = random.randrange(0, 79 - patch_size) # TODO: hardcode
             r2 = random.randrange(0, 95 - patch_size) # TODO: hardcode
@@ -162,16 +162,21 @@ def print_structure(weight_file_path):
         f.close()
 
 
-def test_simple_ae(mri_train = None, mri_test = None):
+def test_simple_ae(mri_train = None, mri_test = None, params = None):
     psize = 5
     # this is the size of our encoded representations
-    encoding_dim = 32  # 32 floats -> compression of factor 24.5, assuming the input is 584 floats
+    encoding_dim = 160  # 32 floats -> compression of factor 24.5, assuming the input is 584 floats
+    n_epoch = 10
+    num_patch_each_img = 1000
+    num_training_img = 110
+    if params is not None:
+        encoding_dim = params['encoding_dim']
 
     # this is our input placeholder
     input_img = Input(shape=(psize * psize * psize,))
 
     # add a Dense layer with a L1 activity regularizer
-    encoded = Dense(encoding_dim, activation='relu', activity_regularizer=regularizers.l1(10e-10))(input_img)
+    encoded = Dense(encoding_dim, activation='relu', activity_regularizer=regularizers.l1(10e-8))(input_img)
 
 
     # relu + sigmoid
@@ -197,7 +202,7 @@ def test_simple_ae(mri_train = None, mri_test = None):
     decoder = Model(encoded_input, decoder_layer(encoded_input))
     autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-    x_train, x_test = create_3d_patch(psize, 1000, 110, mri_train, mri_test)
+    x_train, x_test = create_3d_patch(psize, num_patch_each_img, num_training_img, mri_train, mri_test)
     #print(type(x_train).__name__)
 
     #print(x_train[1][:,:,1])
@@ -239,7 +244,7 @@ def test_simple_ae(mri_train = None, mri_test = None):
     print (x_test.shape)
 
     autoencoder.fit(x_train, x_train,
-                    nb_epoch=20,
+                    nb_epoch=n_epoch,
                     batch_size=256,
                     shuffle=True,
                     validation_data=(x_test, x_test))
